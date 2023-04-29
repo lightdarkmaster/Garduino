@@ -93,3 +93,7 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+//problem is dire ko hiya maconnect ha JDY-16
+//trying to use the wifi module
+//WiFi module model "DT-06 TTL" with Bluetooth HC-06 Interface ESP-M2
