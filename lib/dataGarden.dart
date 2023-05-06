@@ -82,6 +82,18 @@ class _BluetoothPageState extends State<dataGarden> {
               'Humidity: $humidity %',
               style: const TextStyle(fontSize: 20),
             ),
+            Text(
+              'Irradiance: $humidity',
+              style: const TextStyle(fontSize: 20),
+            ),
+            Text(
+              'Rain Status: $humidity ',
+              style: const TextStyle(fontSize: 20),
+            ),
+            Text(
+              'PH Level: $humidity ',
+              style: const TextStyle(fontSize: 20),
+            ),
           ],
         ),
       ),

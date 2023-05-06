@@ -63,7 +63,7 @@ class _TimePickerPageState extends State<TimePickerPage> {
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                 ),
               ),
-              child: const Text('Water Now'),
+              child: const Text('SET'),
             ),
           ],
         ),
