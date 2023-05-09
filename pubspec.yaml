@@ -43,6 +43,7 @@ dependencies:
   flutter_bluetooth_serial: ^0.4.0
   sleek_circular_slider: ^2.0.1
   flutter_svg: ^2.0.5
+  wifi: ^0.1.5
   
   #add dependency ko
 
