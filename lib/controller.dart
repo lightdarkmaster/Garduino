@@ -38,7 +38,7 @@ class MySwitchListTile extends StatefulWidget {
 
 class _MySwitchListTileState extends State<MySwitchListTile> {
   //bool _switchValue = false;
-  bool _fanOn = false;
+  bool _fanOn = true;
   bool _openWindow = false;
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:garduino/controller/bluetooth_Controller.dart';
+import 'package:garduino/controller/bluetooth_controller.dart';
+//import 'package:flutter_serial/flutter_serial.dart';
 import 'package:garduino/navbar.dart';
 import 'package:get/get.dart';
 

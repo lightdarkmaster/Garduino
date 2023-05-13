@@ -9,13 +9,21 @@ class BluetoothController extends GetxController {
 
   Future scanDevices() async {
     flutterBlue.startScan(timeout: const Duration(seconds: 5));
-
     flutterBlue.stopScan();
   }
 
   Stream<List<ScanResult>> get scanResults => flutterBlue.scanResults;
 
-  connectToDevice(BluetoothDevice device) {}
+  connectToDevice(BluetoothDevice device) async {
+    try {
+      await device.connect();
+      // Code to execute after the device is successfully connected
+    } catch (e) {
+      // Handle any connection errors
+      // ignore: avoid_print
+      print('Error connecting to device: $e');
+    }
+  }
 }
 
 //connect to a device
@@ -23,5 +31,7 @@ class BluetoothController extends GetxController {
 
 Future<void> connectToDevice(BluetoothDevice device) async {
   await device.connect();
-  // Do something after the device is connected
 }
+
+//
+
