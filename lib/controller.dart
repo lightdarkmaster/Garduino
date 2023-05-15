@@ -1,19 +1,69 @@
+// ignore_for_file: library_private_types_in_public_api
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:garduino/watering_page.dart';
 
 void main() {
   runApp(const ControllerPage());
 }
 
-class ControllerPage extends StatelessWidget {
+class ControllerPage extends StatefulWidget {
   const ControllerPage({super.key});
 
-  void sendCommand(String command) {
-    // ignore: prefer_typing_uninitialized_variables
-    var connection;
-    connection?.output.add(utf8.encode(command));
+  @override
+  _ControllerPageState createState() => _ControllerPageState();
+}
+
+class _ControllerPageState extends State<ControllerPage> {
+  BluetoothDevice? targetDevice;
+
+  @override
+  void initState() {
+    super.initState();
+    connectToDevice();
+  }
+
+  Future<void> connectToDevice() async {
+    try {
+      FlutterBluePlus flutterBlue = FlutterBluePlus.instance;
+      Stream<ScanResult> scanStream = flutterBlue.scan(
+        timeout: const Duration(seconds: 5),
+      );
+
+      scanStream.listen((result) async {
+        // ignore: unnecessary_null_comparison
+        if (result.device.name != null && result.device.name.isNotEmpty) {
+          targetDevice = result.device.name as BluetoothDevice?;
+          await targetDevice!.connect();
+          sendCommand('1');
+          await flutterBlue
+              .stopScan(); // Stop scanning after finding the target device
+        }
+      });
+    } catch (e) {
+      print('Error connecting to device: $e');
+    }
+  }
+
+  void sendCommand(String command) async {
+    // ignore: unrelated_type_equality_checks
+    if (targetDevice?.state == BluetoothDeviceState.connected) {
+      List<int> data = utf8.encode(command);
+
+      List<BluetoothService> services = await targetDevice!.discoverServices();
+      for (BluetoothService service in services) {
+        for (BluetoothCharacteristic characteristic
+            in service.characteristics) {
+          if (characteristic.properties.write) {
+            await characteristic.write(data);
+          }
+        }
+      }
+      print('device connected');
+    } else {
+      print('Device is not connected');
+    }
   }
 
   @override
@@ -23,22 +73,25 @@ class ControllerPage extends StatelessWidget {
         title: const Text('Controller'),
         backgroundColor: Colors.lightGreen,
       ),
-      body: const MySwitchListTile(),
+      body: MySwitchListTile(
+        sendCommand: sendCommand,
+      ),
     );
   }
 }
 
 class MySwitchListTile extends StatefulWidget {
-  const MySwitchListTile({Key? key}) : super(key: key);
+  final Function(String) sendCommand;
+
+  const MySwitchListTile({Key? key, required this.sendCommand})
+      : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _MySwitchListTileState createState() => _MySwitchListTileState();
 }
 
 class _MySwitchListTileState extends State<MySwitchListTile> {
-  //bool _switchValue = false;
-  bool _fanOn = true;
+  bool _fanOn = false;
   bool _openWindow = false;
 
   @override
@@ -55,7 +108,7 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
               setState(() {
                 _fanOn = value;
               });
-              sendCommand(value ? '1' : '0');
+              widget.sendCommand(value ? '1' : '0');
             },
           ),
         ),
@@ -69,6 +122,7 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
               setState(() {
                 _openWindow = value;
               });
+              widget.sendCommand(value ? 'W' : 'C');
             },
           ),
         ),
@@ -85,14 +139,4 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
       ],
     );
   }
-
-  //add
-
-  void sendCommand(String command) {
-    // ignore: prefer_typing_uninitialized_variables
-    var connection;
-    connection?.output.add(utf8.encode(command));
-  }
 }
-
-//add

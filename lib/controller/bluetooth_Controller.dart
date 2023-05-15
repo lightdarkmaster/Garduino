@@ -1,6 +1,5 @@
 // ignore: file_names
 import 'dart:async';
-
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 
@@ -32,6 +31,3 @@ class BluetoothController extends GetxController {
 Future<void> connectToDevice(BluetoothDevice device) async {
   await device.connect();
 }
-
-//
-

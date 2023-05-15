@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:garduino/notifications.dart';
 import 'package:garduino/settings.dart';
 
-import 'Gardendata.dart';
+//import 'Gardendata.dart';
 import 'dataGarden.dart';
 
 class NavBar extends StatelessWidget {
@@ -54,7 +54,7 @@ class NavBar extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ControllerPage()),
+                MaterialPageRoute(builder: (context) => ControllerPage()),
               );
             },
           ),
