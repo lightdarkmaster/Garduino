@@ -16,6 +16,7 @@ class BluetoothController extends GetxController {
   connectToDevice(BluetoothDevice device) async {
     try {
       await device.connect();
+      print('Connected');
       // Code to execute after the device is successfully connected
     } catch (e) {
       // Handle any connection errors

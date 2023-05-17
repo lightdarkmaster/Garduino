@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Garduino Demo',
+      title: 'Garduino App',
       theme: ThemeData(
         primarySwatch: Colors.lightGreen,
       ),

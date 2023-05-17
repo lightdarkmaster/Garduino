@@ -70,3 +70,29 @@ Future<void> connectToDevice(BluetoothDevice device) async {
 
 //
 
+
+
+controller.dart
+
+
+
+  void sendCommand(String command) async {
+    // ignore: unrelated_type_equality_checks
+    if (targetDevice?.state == BluetoothDeviceState.connected) {
+      List<int> data = utf8.encode(command);
+
+      List<BluetoothService> services = await targetDevice!.discoverServices();
+      for (BluetoothService service in services) {
+        for (BluetoothCharacteristic characteristic
+            in service.characteristics) {
+          if (characteristic.properties.write) {
+            await characteristic.write(data);
+          }
+        }
+      }
+      print('device connected');
+    } else {
+      print('Device not connected');
+    }
+  }
+

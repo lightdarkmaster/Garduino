@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:garduino/watering_page.dart';
+import 'package:garduino/controller/bluetooth_controller.dart';
 
 void main() {
   runApp(const ControllerPage());
@@ -31,10 +32,11 @@ class _ControllerPageState extends State<ControllerPage> {
         timeout: const Duration(seconds: 5),
       );
 
-      scanStream.listen((result) async {
+      scanStream.listen((scanresult) async {
         // ignore: unnecessary_null_comparison
-        if (result.device.name != null && result.device.name.isNotEmpty) {
-          targetDevice = result.device.name as BluetoothDevice?;
+        if (scanresult.device.name != null &&
+            scanresult.device.name.isNotEmpty) {
+          targetDevice = scanresult.device.name as BluetoothDevice?;
           await targetDevice!.connect();
           sendCommand('1');
           await flutterBlue
@@ -42,6 +44,7 @@ class _ControllerPageState extends State<ControllerPage> {
         }
       });
     } catch (e) {
+      // ignore: avoid_print
       print('Error connecting to device: $e');
     }
   }
@@ -62,7 +65,7 @@ class _ControllerPageState extends State<ControllerPage> {
       }
       print('device connected');
     } else {
-      print('Device is not connected');
+      print('Device not connected');
     }
   }
 
