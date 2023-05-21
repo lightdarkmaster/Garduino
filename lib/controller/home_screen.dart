@@ -1,100 +1,71 @@
+import 'package:garduino/controller_page.dart';
+import 'package:garduino/connection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:garduino/controller/bluetooth_controller.dart';
-//import 'package:flutter_serial/flutter_serial.dart';
-import 'package:garduino/navbar.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import '../navbar.dart';
+
+void main() => runApp(const HomePage());
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key); //added
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const NavBar(),
-      appBar: AppBar(
-          title: const Text('Garduino'), backgroundColor: Colors.lightGreen),
-      body: GetBuilder<BluetoothController>(
-          init: BluetoothController(),
-          builder: (controller) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                      height: 80,
-                      width: double.infinity,
-                      color: Colors.lightGreen,
-                      child: const Center(
-                          child: Text("Connect to a Device",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              )))),
-                  const SizedBox(
-                    height: 28,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Garduino',
+      theme: ThemeData(
+          colorScheme: const ColorScheme.dark(
+              secondary: Color.fromARGB(248, 22, 255, 42),
+              primary: Color.fromARGB(255, 23, 241, 16))),
+      home: FutureBuilder(
+        future: FlutterBluetoothSerial.instance.requestEnable(),
+        builder: (BuildContext context, future) {
+          if (future.connectionState == ConnectionState.waiting) {
+            return const Scaffold(
+              body: SizedBox(
+                height: double.infinity,
+                child: Center(
+                  child: Icon(
+                    Icons.bluetooth_disabled,
+                    size: 200,
+                    color: Color.fromARGB(255, 136, 255, 38),
                   ),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () => controller.scanDevices(),
-                      style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.lightGreen,
-                          minimumSize: const Size(250, 55),
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)))),
-                      child: const Text("Scan",
-                          style: TextStyle(
-                            fontSize: 18,
-                          )),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  StreamBuilder<List<ScanResult>>(
-                      stream: controller.scanResults,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (context, index) {
-                                final data = snapshot.data![index];
-                                return Card(
-                                  elevation: 2,
-                                  child: ListTile(
-                                    title: Text(data.device.name),
-                                    subtitle: Text(data.device.id.id),
-                                    trailing: ElevatedButton(
-                                      onPressed: () => controller
-                                          .connectToDevice(data.device),
-                                      style: ElevatedButton.styleFrom(
-                                        foregroundColor: Colors.white,
-                                        backgroundColor: Colors.lightGreen,
-                                        shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5)),
-                                        ),
-                                      ),
-                                      child: const Text("Connect"),
-                                    ),
-                                  ),
-                                );
-                              });
-                        } else {
-                          return const Center(
-                            child: Text("No Device Found"),
-                          );
-                        }
-                      })
-                ],
+                ),
               ),
             );
-          }),
+          } else {
+            return const Home();
+          }
+        },
+      ),
     );
   }
 }
 
-//problem is dire ko hiya maconnect ha JDY-16
-//trying to use the wifi module
-//WiFi module model "DT-06 TTL" with Bluetooth HC-06 Interface ESP-M2
+//////////////////////////////////////////////////////////////////////////////////////////
+
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Scaffold(
+      drawer: const NavBar(),
+      appBar: AppBar(
+        title: const Text("Device List"),
+      ),
+      body: SelectBondedDevicePage(
+        onCahtPage: (device1) {
+          BluetoothDevice device = device1;
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return ChatPage(
+              server: device,
+            );
+          }));
+        },
+      ),
+    ));
+  }
+}

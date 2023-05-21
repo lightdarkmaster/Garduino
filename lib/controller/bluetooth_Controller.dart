@@ -1,4 +1,6 @@
 // ignore: file_names
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';

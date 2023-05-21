@@ -95,4 +95,26 @@ controller.dart
       print('Device not connected');
     }
   }
+//https://www.youtube.com/watch?v=CYa5qaQHuFU-----arduino Talking
 
+
+///
+
+
+    Align(
+            alignment: Alignment.center,
+            child: ledPage2(
+              sendMessageA: () => _sendMessage('a'),
+              sendMessageK: () => _sendMessage('k'),
+            ),
+          ),
+
+
+
+          ///
+          datagarden: Alignment.center,
+
+               floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.bluetooth_disabled),
+      ),

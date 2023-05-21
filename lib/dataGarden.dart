@@ -66,9 +66,6 @@ class _BluetoothPageState extends State<dataGarden> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Garden Data'),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -96,10 +93,6 @@ class _BluetoothPageState extends State<dataGarden> {
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.bluetooth_disabled),
       ),
     );
   }

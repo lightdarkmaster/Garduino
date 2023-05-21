@@ -44,6 +44,7 @@ dependencies:
   flutter_bluetooth_serial: ^0.4.0
   sleek_circular_slider: ^2.0.1
   flutter_svg: ^2.0.5
+  animated_stack: ^0.2.0
   
   #add dependency ko
 
@@ -51,6 +52,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.9.2
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/garden.PNG"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

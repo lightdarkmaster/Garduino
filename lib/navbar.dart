@@ -3,12 +3,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:garduino/about.dart';
-import 'package:garduino/controller.dart';
 import 'package:flutter/services.dart';
 import 'package:garduino/notifications.dart';
 import 'package:garduino/settings.dart';
 
 //import 'Gardendata.dart';
+import 'controller_page.dart';
 import 'dataGarden.dart';
 
 class NavBar extends StatelessWidget {
@@ -28,16 +28,6 @@ class NavBar extends StatelessWidget {
               ),
               child: Text('')),
           ListTile(
-            leading: const Icon(Icons.analytics),
-            title: const Text('Garden Data'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const dataGarden()),
-              );
-            },
-          ),
-          ListTile(
             leading: const Icon(Icons.notifications),
             title: const Text('Notifications'),
             onTap: () {
@@ -45,26 +35,6 @@ class NavBar extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => const NotificationsPage()),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.settings_remote),
-            title: const Text('Controller'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ControllerPage()),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Settings'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SettingsPage()),
               );
             },
           ),
